@@ -1,0 +1,11 @@
+source: "/Users/isaiah/datasets/kaggle_mammograph/"
+destination: "/Users/isaiah/datasets/kaggle_mammograph/preprocessed/mammodata.h5"
+metadata_src: "/Users/isaiah/datasets/kaggle_mammograph/train.csv"
+metadata_dest: "/Users/isaiah/datasets/kaggle_mammograph/preprocessed/metadata.json"
+metadata_cfile: "/Users/isaiah/GitHub/hana_mammograph/isaiah/config/metadata_config.yaml"
+traintest_dest: "/Users/isaiah/datasets/kaggle_mammograph/preprocessed/traintestsplit.json"
+timesheet_dest: "/Users/isaiah/datasets/kaggle_mammograph/preprocessed/timesheet.json"
+file_extension: "h5"
+resolution: [512, 512]
+normalization: True
+test_size: 0.2
