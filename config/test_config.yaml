@@ -1,5 +1,5 @@
 paths: {
-    data_src: "/kaggle/working/rsna-breast-cancer-detection/test_images/",
+    data_src: "/kaggle/input/rsna-breast-cancer-detection/test_images/",
     data_dest: "/kaggle/working/preprocessed/mammosub224.h5",
     metadata_src: "/kaggle/input/rsna-breast-cancer-detection/test.csv",
     metadata_dest: "/kaggle/working/preprocessed/metasub.json",
@@ -22,8 +22,8 @@ preprocess_params: {
 metadata_params: {
     selected_columns: ['image_id', 'patient_id', 'laterality', 'view'],
     default_value: 'na',
-    laterality_map: {0: 'L', 1: 'R'},
-    view_map: {0: 'CC', 1: 'MLO'}
+    laterality_map: {'L': 0, 'R': 1},
+    view_map: {'CC': 0, 'MLO': 1}
 }
 
 dataset_params: {
@@ -46,4 +46,6 @@ run_params: {
     disable_cuda: False,
     batch_size: 1,
     loss_weights: [0.1, 0.2, 0.45, 0.05, 0.1, 0.1]
+    laterality_map: {0: 'L', 1: 'R'},
+    view_map: {0: 'CC', 1: 'MLO'}
 }

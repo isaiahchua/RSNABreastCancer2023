@@ -23,7 +23,6 @@ class Submission:
         self.model_cfgs = cfgs.model_params
         self.data_cfgs = cfgs.dataset_params
         self.test_cfgs = cfgs.run_params
-        self.md_cfgs = cfgs.metadata_params
 
         self.model_weights_path = self.paths.model_load_src
         self.submission_path = abspath(self.paths.submission_path)
@@ -40,8 +39,8 @@ class Submission:
             self.device = torch.device('cpu')
 
         self.labels = self.data_cfgs.labels
-        self.default_value = self.md_cfgs.default_value
-        self.lmap = defaultdict(lambda: self.default_value, self.md_cfgs.laterality_map)
+        self.default_value = self.test_cfgs.default_value
+        self.lmap = defaultdict(lambda: self.default_value, self.test_cfgs.laterality_map)
         self.model_weights = torch.load(self.model_weights_path)
         self.results = None
 
