@@ -45,7 +45,7 @@ run_params: {
     train: False,
     disable_cuda: False,
     batch_size: 1,
-    loss_weights: [0.1, 0.2, 0.45, 0.05, 0.1, 0.1]
+    loss_weights: [0.1, 0.2, 0.45, 0.05, 0.1, 0.1],
     laterality_map: {0: 'L', 1: 'R'},
     view_map: {0: 'CC', 1: 'MLO'}
 }
