@@ -5,8 +5,8 @@ paths: {
     metadata_dest: "/kaggle/input/rsna-breast-cancer-detection/preprocessed/metasub.json"
     data_ids_dest: "/kaggle/input/rsna-breast-cancer-detection/preprocessed/submission_split.json"
     timesheet_dest: "/kaggle/input/rsna-breast-cancer-detection/preprocessed/sub_timesheet.json"
-    model_load_src: "/home/isaiah/kaggle/mammo/results/20220122/densenet_final_01.pth"
-    submission_path: "/kaggle/input/rsna-breast-cancer-detection/submission.csv"
+    model_load_src: "/kaggle/input/rsna-breast-cancer-model-weights/20220122/densenet_final_01.pth"
+    submission_path: "/kaggle/working/submission.csv"
 }
 
 preprocess_params: {
