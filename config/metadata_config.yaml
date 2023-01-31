@@ -1,9 +1,0 @@
-selected_columns: ['image_id', 'patient_id', 'laterality', 'view', 'age',
-                   'cancer', 'implant', 'density', 'machine_id', 
-                   'difficult_negative_case']
-default_value: 'na'
-age_nan: "mean"
-laterality_map: {'L': 0, 'R': 1}
-view_map: {'CC': 0, 'MLO': 1}
-density_map: {'A': 1, 'B': 2, 'C': 3, 'D': 4}
-diff_neg_case_map: {FALSE: 0, TRUE: 1}
