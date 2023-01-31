@@ -33,8 +33,9 @@ class Submission:
 
         if not self.test_cfgs.no_gpu and torch.cuda.is_available():
             self.device = torch.device('cuda')
-        elif not self.test_cfgs.no_gpu and torch.backends.mps.is_available():
-            self.device = torch.device("mps")
+        # ``torch.backends.mps`` not present in kaggle notebook torch
+        # elif not self.test_cfgs.no_gpu and torch.backends.mps.is_available():
+            # self.device = torch.device("mps")
         else:
             self.device = torch.device('cpu')
 
