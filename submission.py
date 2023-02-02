@@ -78,7 +78,7 @@ class Submission:
             lats.extend(vt.int()[:, 1].detach().tolist())
             # views.extend(vt[:, 2].detach().tolist())
             preds.extend(torch.sigmoid(self.model(vi))[:, 3].detach().tolist())
-            printProgressBarRatio(vbatch, len(self.testloader), prefix="Samples")
+            printProgressBarRatio(vbatch + 1, len(self.testloader), prefix="Samples")
         rlats = [self.lmap[val] for val in lats]
         pred_ids = ["_".join(item) for item in zip(map(str, pats), rlats)]
         df = pd.DataFrame(preds, index=pred_ids, columns=["cancer"])
