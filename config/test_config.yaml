@@ -1,12 +1,12 @@
 paths: {
-    data_src: "/home/isaiah/temp2/",
-    data_dest: "/home/isaiah/kaggle/mammo/preprocessed/mammosub224.h5",
-    metadata_src: "/home/isaiah/temp2.csv",
-    metadata_dest: "/home/isaiah/kaggle/mammo/preprocessed/metasub.json",
-    data_ids_dest: "/home/isaiah/kaggle/mammo/preprocessed/submission_split.json",
-    timesheet_dest: "/home/isaiah/kaggle/mammo/preprocessed/sub_timesheet.json",
+    data_src: "/kaggle/input/rsna-breast-cancer-detection/test_images/",
+    data_dest: "/kaggle/working/preprocessed/mammosub224.h5",
+    metadata_src: "/kaggle/input/rsna-breast-cancer-detection/test.csv",
+    metadata_dest: "/kaggle/working/preprocessed/metasub.json",
+    data_ids_dest: "/kaggle/working/preprocessed/submission_split.json",
+    timesheet_dest: "/kaggle/working/preprocessed/sub_timesheet.json",
     model_load_src: null,
-    submission_path: "/home/isaiah/kaggle/mammo/results/20230202/submission.csv"
+    submission_path: "/kaggle/working/submission.csv"
 }
 
 preprocess_params: {
