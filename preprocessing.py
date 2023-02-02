@@ -139,28 +139,36 @@ class MammoPreprocess:
         mask, _ = label(mask)
         # # ignore the first index of stats because it is the background
         _, stats = np.unique(mask, return_counts=True)
-        obj_idx = np.argmax(stats[1:]) + 1
-        x1,y1,x2,y2 = regionprops(1*(mask == obj_idx))[0].bbox
-        h = x2-x1
-        w = y2-y1
-        return im[x1:x2, y1:y2]
+        if len(stats) > 1:
+            obj_idx = np.argmax(stats[1:]) + 1
+            x1,y1,x2,y2 = regionprops(1*(mask == obj_idx))[0].bbox
+            h = x2-x1
+            w = y2-y1
+            res = im[x1:x2, y1:y2]
+        else:
+            res = im
+        return res
 
     def ProcessDicom(self, file):
         ds = pydicom.dcmread(file)
         im = ds.pixel_array
-        self.img_id = ds.InstanceNumber
-        if self.res != None:
-            im = self.Compress(im, self.init_res)
-        im = self.ProportionInvert(im)
-        mask = self.MinThreshold(im)
-        im = self.LargestObjCrop(im, mask)
-        if self.res != None:
-            im = self.Compress(im, self.res)
-        im = self.Pad(im)
-        if self.normit:
-            im= cv2.normalize(im, None, alpha=0, beta=1,
-                                              norm_type=cv2.NORM_MINMAX,
-                                              dtype=cv2.CV_32F)
+        if im.max() -im.min() == 0.:
+            if self.res != None:
+                im = np.zeros(self.res)
+        else:
+            self.img_id = ds.InstanceNumber
+            if self.res != None:
+                im = self.Compress(im, self.init_res)
+            im = self.ProportionInvert(im)
+            mask = self.MinThreshold(im)
+            im = self.LargestObjCrop(im, mask)
+            if self.res != None:
+                im = self.Compress(im, self.res)
+            im = self.Pad(im)
+            if self.normit:
+                im= cv2.normalize(im, None, alpha=0, beta=1,
+                                                  norm_type=cv2.NORM_MINMAX,
+                                                  dtype=cv2.CV_32F)
         return im
 
     def _SaveNumpy(self, filepath, im):
