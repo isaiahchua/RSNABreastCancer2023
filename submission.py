@@ -41,7 +41,10 @@ class Submission:
         self.labels = self.data_cfgs.labels
         self.default_value = self.test_cfgs.default_value
         self.lmap = defaultdict(lambda: self.default_value, self.test_cfgs.laterality_map)
-        self.model_weights = torch.load(self.model_weights_path)
+        if self.model_weights_path == None:
+            self.model_weights = None
+        else:
+            self.model_weights = torch.load(self.model_weights_path)
         self.results = None
 
         self.data = MammoH5Data(self.device, self.data_path, self.metadata_path,
@@ -62,7 +65,8 @@ class Submission:
 
     def Run(self):
         self.model = DenseNet(**self.model_cfgs)
-        self.model.load_state_dict(self.model_weights)
+        if self.model_weights != None:
+            self.model.load_state_dict(self.model_weights)
         self.model.to(self.device)
         self.model.eval()
         pats = []
