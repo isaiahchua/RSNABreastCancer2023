@@ -56,8 +56,6 @@ class MammoPreprocess:
                                                 recursive=True)
         self.normit = normalize
 
-        self.img_id = None
-
     def ProportionInvert(self, im, alpha=0.7):
         p = np.sum(im[im == np.max(im)])/np.prod(im.shape)
         if p > alpha:
@@ -66,7 +64,7 @@ class MammoPreprocess:
 
     def Compress(self, im, resolution):
         if np.max(resolution) > np.max(im.shape):
-            print(f"WARNING: {self.img_id} input image size is smaller than output image size.")
+            print("WARNING: input image size is smaller than output image size.")
         else:
             end_shape = (np.asarray(resolution) * (im.shape/np.max(im.shape))).astype(np.int16)[::-1]
             im = cv2.resize(im, dsize=end_shape, interpolation=cv2.INTER_CUBIC)
@@ -110,7 +108,6 @@ class MammoPreprocess:
             if self.res != None:
                 im = np.zeros(self.res)
         else:
-            self.img_id = ds.InstanceNumber
             if self.res != None:
                 im = self.Compress(im, self.init_res)
             im = self.ProportionInvert(im)
