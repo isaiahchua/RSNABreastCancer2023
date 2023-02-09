@@ -4,7 +4,7 @@ paths: {
     metadata_src: "/kaggle/input/rsna-breast-cancer-detection/test.csv",
     metadata_dest: "/kaggle/temp/preprocessed/metasub.json",
     data_ids_dest: "/kaggle/temp/preprocessed/submission_split.json",
-    model_load_src: null,
+    model_load_src: "/kaggle/input/rsna-breast-cancer-model-weights/20230208/densenet_best_02.pth",
     submission_path: "/kaggle/working/submission.csv"
 }
 
@@ -30,11 +30,11 @@ dataset_params: {
 
 model_params: {
     growth_rate: 32,
-    block_config: [6, 12, 24, 16],
+    block_config: [6, 12, 64, 48],
     num_init_features: 64,
     bn_size: 4,
     drop_rate: 0,
-    num_classes: 6,
+    num_classes: 1,
     memory_efficient: False
 }
 
@@ -42,7 +42,7 @@ run_params: {
     train: False,
     disable_cuda: False,
     batch_size: 1,
-    loss_weights: [0.1, 0.2, 0.45, 0.05, 0.1, 0.1],
+    loss_weights: [1.],
     laterality_map: {0: 'L', 1: 'R'},
     view_map: {0: 'CC', 1: 'MLO'}
 }
