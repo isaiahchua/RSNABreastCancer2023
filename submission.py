@@ -44,7 +44,7 @@ class Submission:
         if self.model_weights_path == None:
             self.model_weights = None
         else:
-            self.model_weights = torch.load(self.model_weights_path)
+            self.model_weights = torch.load(self.model_weights_path)["model"]
         self.results = None
 
         self.data = MammoH5Data(self.device, self.data_path, self.metadata_path,
