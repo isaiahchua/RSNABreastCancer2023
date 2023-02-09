@@ -4,7 +4,7 @@ paths: {
     metadata_src: "/kaggle/input/rsna-breast-cancer-detection/test.csv",
     metadata_dest: "/kaggle/temp/preprocessed/metasub.json",
     data_ids_dest: "/kaggle/temp/preprocessed/submission_split.json",
-    model_load_src: "/kaggle/input/rsna-breast-cancer-model-weights/20230208/densenet_best_02.pth",
+    model_load_src: "/kaggle/input/rsna-breast-cancer-model-weights/20230208/densenet_final_03.pth",
     submission_path: "/kaggle/working/submission.csv"
 }
 
