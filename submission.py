@@ -10,6 +10,7 @@ from torch.utils.data import DataLoader
 from dataset import MammoH5Data, GroupSampler
 from models import DenseNet
 from metrics import PFbeta
+import timm
 import json
 from addict import Dict
 from utils import printProgressBarRatio
@@ -38,6 +39,7 @@ class Submission:
         else:
             self.device = torch.device('cpu')
 
+        self.model_name = self.test_cfgs.model
         self.labels = self.data_cfgs.labels
         self.default_value = self.test_cfgs.default_value
         self.lmap = defaultdict(lambda: self.default_value, self.test_cfgs.laterality_map)
@@ -55,29 +57,34 @@ class Submission:
         self.batch_size = self.test_cfgs.batch_size
         self.testloader = DataLoader(self.data, self.batch_size, sampler=self.test_sampler)
 
+        self.model_dict = defaultdict(self._DefModel, {
+            "custom_densenet": DenseNet
+        })
+
     def _CheckMakeDirs(self, filepath):
         if not isdir(dirname(filepath)):
             os.makedirs(dirname(filepath))
+
+    def _DefModel(self):
+        return timm.create_model
 
     def ExportSubmissionCSV(self):
         self._CheckMakeDirs(self.submission_path)
         self.results.to_csv(self.submission_path, index=True, index_label="prediction_id")
 
     def Run(self):
-        self.model = DenseNet(**self.model_cfgs)
+        self.model = self.model_dict[self.model_name](self.model_name, **self.model_cfgs)
         if self.model_weights != None:
             self.model.load_state_dict(self.model_weights)
         self.model.to(self.device)
         self.model.eval()
         pats = []
         lats = []
-        # views = []
         preds = []
         for vbatch, (vimg_id, vi, vt) in enumerate(self.testloader):
             pats.extend(vt.int()[:, 0].detach().tolist())
             lats.extend(vt.int()[:, 1].detach().tolist())
-            # views.extend(vt[:, 2].detach().tolist())
-            preds.extend(torch.sigmoid(self.model(vi)).detach().tolist())
+            preds.extend(torch.sigmoid(self.model(vi)).detach().cpu().numpy()[:, 0].flatten().tolist())
             printProgressBarRatio(vbatch + 1, len(self.testloader), prefix="Samples")
         rlats = [self.lmap[val] for val in lats]
         pred_ids = ["_".join(item) for item in zip(map(str, pats), rlats)]
