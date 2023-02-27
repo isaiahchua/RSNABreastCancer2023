@@ -19,6 +19,7 @@ preprocess_params: {
 }
 
 metadata_params: {
+    test_set: True,
     selected_columns: ['image_id', 'patient_id', 'laterality', 'view'],
     laterality_map: {'L': 0, 'R': 1},
     view_map: {'CC': 0, 'MLO': 1}

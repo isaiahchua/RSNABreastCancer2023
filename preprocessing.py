@@ -41,7 +41,7 @@ class MetadataPreprocess:
         self.dncmap = defaultdict(lambda: self.default_value, cfgs.diff_neg_case_map)
         self.smap = {'json': self._SaveJson, 'csv': self._SaveCSV}
 
-    def GenerateMetadata(self):
+    def _GenerateTrainMetadata(self):
         md = self.inp_md[self.cols].copy()
         if self.age_nan == "mean" and self.age_nan:
             md.age.mask(md.age.isna(), md.age.mean(), inplace=True)
@@ -59,6 +59,20 @@ class MetadataPreprocess:
         md.dropna(inplace=True)
         md.set_index('image_id', inplace=True)
         self.out_md = md
+
+    def _GenerateTestMetadata(self):
+        md = self.inp_md[self.cols].copy()
+        md.laterality = md.laterality.map(self.lmap, na_action="ignore")
+        md.view = md.view.map(self.vmap, na_action="ignore")
+        md.dropna(inplace=True)
+        md.set_index('image_id', inplace=True)
+        self.out_md = md
+
+    def GenerateMetadata(self):
+        if self.test_set:
+            self._GenerateTestMetadata()
+        else:
+            self._GenerateTrainMetadata()
 
     def _SaveJson(self):
         self.out_md.to_json(self.savepath, orient="index", indent=4)
