@@ -1,0 +1,77 @@
+paths: {
+    data_src: "/home/dataset/kaggle/input/train_images/",
+    data_dest: "/home/isaiah/kaggle/mammo/preprocessed/mammodata224_2.h5",
+    metadata_src: "/home/dataset/kaggle/input/train.csv",
+    metadata_dest: "/home/isaiah/kaggle/mammo/preprocessed/metadata_2.json",
+    data_ids_dest: "/home/isaiah/kaggle/mammo/preprocessed/train_split_2.json",
+    timesheet_dest: "/home/isaiah/kaggle/mammo/preprocessed/train_timesheet.json",
+    model_load_src: null,
+    model_ckpts_dest: "/home/isaiah/kaggle/mammo/results/20230227/densenet_ckpt_01.pth",
+    model_best_dest: "/home/isaiah/kaggle/mammo/results/20230227/densenet_best_01.pth",
+    train_report_path: "/home/isaiah/kaggle/mammo/results/20230227/densenet_train_rep_01.csv",
+    eval_report_path: "/home/isaiah/kaggle/mammo/results/20230227/densenet_eval_rep_01.csv",
+}
+
+preprocess_params: {
+    file_extension: "h5",
+    init_downsample_ratio: 2.5,
+    resolution: [224, 224],
+    normalization: True,
+    test_set: False,
+    num_samples: null,
+    test_size: 0.25
+}
+
+metadata_params: {
+    test_set: False,
+    selected_columns: ['image_id', 'patient_id', 'laterality', 'view', 'age',
+                       'cancer', 'implant', 'density', 'machine_id', 
+                       'difficult_negative_case'],
+    default_value: 'na',
+    age_nan: "mean",
+    laterality_map: {'L': 0, 'R': 1},
+    view_map: {'CC': 0, 'MLO': 1},
+    density_map: {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+    diff_neg_case_map: {FALSE: 0, TRUE: 1},
+}
+
+dataset_params: {
+    augmentations: ["contrast_brightness", "flip", "rotate", "noise"],
+    labels: ["cancer", "laterality", "view", "implant"],
+}
+
+optimizer_params: {
+    lr: 3.0e-5,
+    weight_decay: 1.0e-4,
+}
+
+scheduler_params: {
+    base_lr: 1.0e-5,
+    max_lr: 1.0e-3,
+    step_size_up: 250,
+    mode: "triangular",
+    cycle_momentum: False,
+}
+
+model_params: {
+    in_chans: 1,
+    num_classes: 4,
+    pretrained: False,
+    drop_rate: 0.5,
+}
+
+run_params: {
+    model: "resnet18",
+    train: True,
+    optimizer: "adamw",
+    scheduler: "cyclic",
+    regularizers: ["tpr"],
+    disable_cuda: False,
+    epochs: 20,
+    batch_size: 40,
+    validation_size: 60,
+    tracking_frequency: 1,
+    loss_weights: [0.5, 0.5],
+    label_weights: [0.75, 0.14, 0.07, 0.04],
+    classes: ['cancer', 'healthy'],
+}

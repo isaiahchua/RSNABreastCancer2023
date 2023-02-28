@@ -1,0 +1,30 @@
+How to use max cpu cores for preprocessing
+
+Sampling fix ratio of cancer and non-cancer samples
+
+1942326353
+
+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
+
+Visualise other model training goals
+- Adjust model training weights
+
+Change model training target for binary classification tasks to accuracy?
+Plot model training loss every epoch
+
+Train deeper model
+- change model configs
+User cyclic learning rate
+
+Save model checkpoint every epoch
+Save best model when there’s an improvement
+
+Change compression interpolation from cubic to nearest neighbour
+
+1326232078
+
+197998560
+
+a17cd052b088f1772f63c67228c5b5c27dbf53ba
+
+a8fd6ee44fa82ab06b4432af24ceaf6646802b6f

@@ -1,0 +1,68 @@
+paths: {
+    data_src: "/home/dataset/kaggle/input/train_images/",
+    data_dest: "/home/isaiah/kaggle/mammo/preprocessed/mammodata224.h5",
+    metadata_src: "/home/dataset/kaggle/input/train.csv",
+    metadata_dest: "/home/isaiah/kaggle/mammo/preprocessed/metadata.json",
+    data_ids_dest: "/home/isaiah/kaggle/mammo/preprocessed/demo1000balsplit.json",
+    timesheet_dest: "/home/isaiah/kaggle/mammo/preprocessed/train_timesheet.json",
+    model_load_src: null,
+    model_ckpts_dest: "/home/isaiah/kaggle/mammo/results/20230221/demo_densenet_ckpt_01.pth",
+    model_best_dest: "/home/isaiah/kaggle/mammo/results/20230221/demo_densenet_best_01.pth",
+    train_report_path: "/home/isaiah/kaggle/mammo/results/20230221/demo_densenet_train_rep_01.csv",
+    eval_report_path: "/home/isaiah/kaggle/mammo/results/20230221/demo_densenet_eval_rep_01.csv"
+}
+
+preprocess_params: {
+    file_extension: "h5",
+    init_downsample_ratio: 2.5,
+    resolution: [224, 224],
+    normalization: True,
+    test_set: False,
+    num_samples: null,
+    test_size: 0.25
+}
+
+metadata_params: {
+    selected_columns: ['image_id', 'patient_id', 'laterality', 'view', 'age',
+                       'cancer', 'implant', 'density', 'machine_id', 
+                       'difficult_negative_case'],
+    default_value: 'na',
+    age_nan: "mean",
+    laterality_map: {'L': 0, 'R': 1},
+    view_map: {'CC': 0, 'MLO': 1},
+    density_map: {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+    diff_neg_case_map: {FALSE: 0, TRUE: 1}
+}
+
+dataset_params: {
+    augmentations: ["contrast_brightness", "flip", "rotate", "noise"],
+    labels: ["cancer", "laterality"],
+}
+
+optimizer_params: {
+    lr: 0.001,    
+}
+
+scheduler_params: {
+    gamma: 0.709,
+}
+
+model_params: {
+    in_chans: 1,
+    num_classes: 2,
+    pretrained: False,
+}
+
+run_params: {
+    model: "resnet18",
+    train: True,
+    optimizer: "adam",
+    scheduler: "exponential",
+    disable_cuda: False,
+    epochs: 20,
+    batch_size: 50,
+    validation_size: 25,
+    tracking_frequency: 1,
+    loss_weights: [0.8, 0.2],
+    classes: ['cancer', 'healthy']
+}
