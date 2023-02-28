@@ -31,7 +31,7 @@ class Submission:
         self.metadata_path = abspath(self.paths.metadata_dest)
         self.data_ids_path = abspath(self.paths.data_ids_dest)
 
-        if not self.test_cfgs.no_gpu and torch.cuda.is_available():
+        if not self.test_cfgs.disable_cuda and torch.cuda.is_available():
             self.device = torch.device('cuda')
         # ``torch.backends.mps`` not present in kaggle notebook torch
         # elif not self.test_cfgs.no_gpu and torch.backends.mps.is_available():

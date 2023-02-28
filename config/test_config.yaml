@@ -1,11 +1,10 @@
 paths: {
     data_src: "/kaggle/input/rsna-breast-cancer-detection/test_images/",
-    data_dest: "/kaggle/working/preprocessed/mammosub224.h5",
+    data_dest: "/kaggle/temp/preprocessed/mammosub224.h5",
     metadata_src: "/kaggle/input/rsna-breast-cancer-detection/test.csv",
-    metadata_dest: "/kaggle/working/preprocessed/metasub.json",
-    data_ids_dest: "/kaggle/working/preprocessed/submission_split.json",
-    timesheet_dest: "/kaggle/working/preprocessed/sub_timesheet.json",
-    model_load_src: null,
+    metadata_dest: "/kaggle/temp/preprocessed/metasub.json",
+    data_ids_dest: "/kaggle/temp/preprocessed/submission_split.json",
+    model_load_src: "/kaggle/input/rsna-breast-cancer-model-weights/20230222/densenet_ckpt_01.pth",
     submission_path: "/kaggle/working/submission.csv"
 }
 
@@ -20,32 +19,31 @@ preprocess_params: {
 }
 
 metadata_params: {
+    test_set: True,
+    default_value: "na",
     selected_columns: ['image_id', 'patient_id', 'laterality', 'view'],
-    default_value: 'na',
     laterality_map: {'L': 0, 'R': 1},
     view_map: {'CC': 0, 'MLO': 1}
 }
 
 dataset_params: {
-    augmentations: {"contrast_brightness"},
+    augmentations: ["contrast_brightness"],
     labels: ["patient_id", "laterality", "view"] 
 }
 
 model_params: {
-    growth_rate: 32,
-    block_config: [6, 12, 24, 16],
-    num_init_features: 64,
-    bn_size: 4,
-    drop_rate: 0,
-    num_classes: 6,
-    memory_efficient: False
+    in_chans: 1,
+    num_classes: 2,
+    pretrained: False,
 }
 
 run_params: {
     train: False,
     disable_cuda: False,
+    model: "resnet18",
     batch_size: 1,
-    loss_weights: [0.1, 0.2, 0.45, 0.05, 0.1, 0.1],
+    loss_weights: [0.3, 0.7],
+    label_weights: [0.9, 0.1],
     laterality_map: {0: 'L', 1: 'R'},
-    view_map: {0: 'CC', 1: 'MLO'}
+    view_map: {0: 'CC', 1: 'MLO'},
 }

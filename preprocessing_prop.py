@@ -170,7 +170,6 @@ class MammoPreprocess:
     def ProcessDicom(self, file):
         ds = pydicom.dcmread(file)
         im = ds.pixel_array
-        photometriclabel = ds.PhotometricInterpretation
         if im.max() -im.min() == 0.:
             if self.res != None:
                 im = np.zeros(self.res)
@@ -178,7 +177,7 @@ class MammoPreprocess:
             self.img_id = ds.InstanceNumber
             if self.res != None:
                 im = self.Compress(im, self.init_res)
-            im = self.PhotometricLabelInvert(im, photometriclabel)
+            im = self.ProportionInvert(im)
             mask = self.MinThreshold(im)
             im = self.LargestObjCrop(im, mask)
             if self.res != None:
